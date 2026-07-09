@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Municipality Portal — UrbanSpire AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#10203D; --ink-soft:#1F3A5F; --paper:#F6F3EC; --paper-deep:#EDE8DC;
+    --gold:#C89B3C; --gold-deep:#A87F2A; --teal:#2A8C82; --rust:#B5503A;
+    --line:#D8D2C2; --muted:#5B6472; --white:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ===== LOGIN SCREEN ===== */
+  #loginScreen{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 80% 10%, rgba(200,155,60,0.15), transparent 45%), var(--ink);
+  }
+  .login-box{
+    background:var(--white);border-radius:18px;padding:44px;max-width:420px;width:90%;
+    box-shadow:0 30px 70px -30px rgba(0,0,0,0.5);
+  }
+  .login-box .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:20px;margin-bottom:6px;}
+  .login-box .brand .mark{width:32px;height:32px;border-radius:8px;background:var(--ink);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;}
+  .login-box .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-bottom:24px;}
+  .form-group{margin-bottom:16px;}
+  .form-label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;font-family:'IBM Plex Mono',monospace;}
+  .form-input, .form-select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-family:'Inter';font-size:14px;background:var(--paper);}
+  .form-input:focus, .form-select:focus{outline:none;border-color:var(--gold-deep);}
+  .btn-primary{width:100%;padding:13px;background:var(--ink);color:var(--paper);border:none;border-radius:9px;font-weight:700;font-size:14.5px;cursor:pointer;margin-top:8px;}
+  .btn-primary:hover{background:var(--ink-soft);}
+  .login-error{color:var(--rust);font-size:13px;margin-top:10px;display:none;}
+  .demo-hint{font-size:11.5px;color:var(--muted);margin-top:18px;text-align:center;line-height:1.6;}
+
+  /* ===== DASHBOARD SHELL ===== */
+  #dashboardScreen{display:none;min-height:100vh;}
+  header{
+    display:flex;align-items:center;justify-content:space-between;padding:16px 32px;
+    background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:18px;}
+  .brand .mark{width:30px;height:30px;border-radius:8px;background:var(--ink);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;}
+  .role-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--paper-deep);color:var(--ink-soft);padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
+  .logout-btn{background:var(--rust);color:white;border:none;padding:9px 16px;border-radius:7px;font-weight:600;font-size:13px;cursor:pointer;}
+
+  .tabs{display:flex;gap:4px;padding:16px 32px 0;background:var(--white);border-bottom:1px solid var(--line);}
+  .tab-btn{padding:11px 20px;border:none;background:transparent;font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;}
+  .tab-btn.active{color:var(--ink);border-bottom-color:var(--gold-deep);}
+
+  main{padding:28px 32px;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .toolbar{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .toolbar select, .toolbar input{padding:8px 12px;border:1px solid var(--line);border-radius:7px;font-size:13px;background:var(--white);}
+  .toolbar button{padding:8px 16px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;}
+
+  table{width:100%;border-collapse:collapse;background:var(--white);border-radius:12px;overflow:hidden;border:1px solid var(--line);}
+  th{background:var(--paper-deep);text-align:left;padding:12px 14px;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
+  td{padding:12px 14px;border-top:1px solid var(--line);font-size:13.5px;vertical-align:top;}
+  .pill{padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;}
+  .pill.high, .pill.rejected{background:rgba(181,80,58,0.15);color:var(--rust);}
+  .pill.medium, .pill.underreview, .pill.inprogress{background:rgba(200,155,60,0.18);color:var(--gold-deep);}
+  .pill.low, .pill.resolved, .pill.approved{background:rgba(42,140,130,0.15);color:var(--teal);}
+  .pill.registered, .pill.pending{background:rgba(90,100,114,0.12);color:var(--muted);}
+
+  .row-actions{display:flex;flex-direction:column;gap:6px;min-width:220px;}
+  .row-actions select, .row-actions input, .row-actions textarea{padding:6px 9px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;width:100%;}
+  .row-actions button{padding:7px 10px;background:var(--ink);color:var(--paper);border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
+  .row-actions button.reject{background:var(--rust);}
+  .row-actions button.correction{background:var(--gold-deep);}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+  .kpi{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .kpi .num{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;}
+  .kpi .lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+  .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .chart-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .chart-card h4{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:14px;font-family:'IBM Plex Mono',monospace;}
+
+  .toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:var(--paper);padding:14px 20px;border-radius:10px;font-size:13.5px;box-shadow:0 10px 30px rgba(0,0,0,0.3);display:none;z-index:999;}
+  .toast.show{display:block;}
+  .empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:13.5px;}
+
+  @media(max-width:900px){
+    .kpi-row{grid-template-columns:1fr 1fr;}
+    .chart-grid{grid-template-columns:1fr;}
+    table, thead, tbody, th, td, tr{display:block;}
+    thead{display:none;}
+    tr{border-bottom:8px solid var(--paper);padding:10px;}
+    td{border-top:none;padding:6px 4px;}
+    td::before{content:attr(data-label);display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;font-family:'IBM Plex Mono',monospace;margin-bottom:2px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="brand"><span class="mark">US</span> UrbanSpire AI</div>
+    <div class="eyebrow">Municipality Staff Portal</div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" id="loginEmail" placeholder="officer@urbanspire.ai">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="loginPassword" placeholder="Your password">
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn-primary" id="loginBtn" onclick="doOfficerLogin()">Login to Municipality Portal</button>
+    <p class="demo-hint">This portal is separate from the Citizen Login on the main site.<br>Access is restricted to Officer, Admin and Commissioner accounts only.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD SCREEN -->
+<div id="dashboardScreen">
+  <header>
+    <div class="brand"><span class="mark">US</span> Municipality Portal</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span id="userName" style="font-size:13.5px;font-weight:600;"></span>
+      <span class="role-badge" id="userRole">officer</span>
+      <button class="logout-btn" onclick="doStaffLogout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="complaints" onclick="switchTab('complaints')"><i class="fa-solid fa-triangle-exclamation"></i>&nbsp; Complaints</button>
+    <button class="tab-btn" data-tab="certificates" onclick="switchTab('certificates')"><i class="fa-solid fa-file-shield"></i>&nbsp; Certificates</button>
+    <button class="tab-btn" data-tab="analytics" onclick="switchTab('analytics')"><i class="fa-solid fa-chart-pie"></i>&nbsp; Analytics</button>
+  </div>
+
+  <main>
+    <!-- COMPLAINTS PANEL -->
+    <div class="panel active" id="panel-complaints">
+      <div class="toolbar">
+        <select id="filterStatus" onchange="loadComplaints()">
+          <option value="">All Statuses</option>
+          <option value="Registered">Registered</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <select id="filterCategory" onchange="loadComplaints()">
+          <option value="">All Categories</option>
+          <option value="Water Supply">Water Supply</option>
+          <option value="Roads">Roads</option>
+          <option value="Electricity">Electricity</option>
+          <option value="Sanitation">Sanitation</option>
+          <option value="Streetlights">Streetlights</option>
+          <option value="Public Health">Public Health</option>
+          <option value="Other">Other</option>
+        </select>
+        <button onclick="loadComplaints()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      </div>
+      <div id="complaintsTableWrap"><p class="empty-state">Loading complaints...</p></div>
+    </div>
+
+    <!-- CERTIFICATES PANEL -->
+    <div class="panel" id="panel-certificates">
+      <div class="toolbar">
+        <select id="filterCertStatus" onchange="loadCertificates()">
+          <option value="">All Statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <button onclick="loadCertificates()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      </div>
+      <div id="certificatesTableWrap"><p class="empty-state">Loading certificate applications...</p></div>
+    </div>
+
+    <!-- ANALYTICS PANEL -->
+    <div class="panel" id="panel-analytics">
+      <div class="kpi-row" id="analyticsKpis">
+        <div class="kpi"><div class="num" id="kpiTotalComplaints">—</div><div class="lbl">Total Complaints</div></div>
+        <div class="kpi"><div class="num" id="kpiOpenComplaints">—</div><div class="lbl">Open Complaints</div></div>
+        <div class="kpi"><div class="num" id="kpiResolvedComplaints">—</div><div class="lbl">Resolved Complaints</div></div>
+        <div class="kpi"><div class="num" id="kpiTotalCitizens">—</div><div class="lbl">Registered Citizens</div></div>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card"><h4>Complaints by Category</h4><canvas id="catChart" height="200"></canvas></div>
+        <div class="chart-card"><h4>Complaints by Status</h4><canvas id="statusChart" height="200"></canvas></div>
+      </div>
+      <div class="chart-card" style="margin-top:20px;"><h4>6-Month Complaint Trend</h4><canvas id="monthlyChart" height="90"></canvas></div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000/api'
+  : 'https://urbanspire-backend.onrender.com/api'; // <-- REPLACE with your actual Render URL after deploy
+
+function authHeaders(){
+  const token = localStorage.getItem('urbanspire_staff_token');
+  return token ? { 'Authorization': 'Bearer ' + token } : {};
+}
+function showToast(msg, isError){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isError ? 'var(--rust)' : 'var(--ink)';
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'), 3000);
+}
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+/* ===== AUTH ===== */
+async function doOfficerLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errBox = document.getElementById('loginError');
+  errBox.style.display = 'none';
+
+  if(!email || !password){
+    errBox.textContent = 'Please enter both email and password.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = 'Logging in...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/officer-login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || 'Login failed');
+
+    localStorage.setItem('urbanspire_staff_token', data.token);
+    localStorage.setItem('urbanspire_staff_name', data.user.name);
+    localStorage.setItem('urbanspire_staff_role', data.user.role);
+    enterDashboard(data.user);
+  } catch(err){
+    errBox.textContent = err.message || 'Could not connect to the server.';
+    errBox.style.display = 'block';
+  }
+  btn.textContent = 'Login to Municipality Portal';
+  btn.disabled = false;
+}
+
+function enterDashboard(user){
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboardScreen').style.display = 'block';
+  document.getElementById('userName').textContent = user.name;
+  document.getElementById('userRole').textContent = user.role;
+  if(user.role !== 'admin' && user.role !== 'commissioner'){
+    // Citizen/officer-stats and total-citizens KPI are admin-only per backend authorization
+    document.getElementById('kpiTotalCitizens').closest('.kpi').style.display = 'none';
+  }
+  loadOfficersList();
+  loadComplaints();
+}
+
+function doStaffLogout(){
+  localStorage.removeItem('urbanspire_staff_token');
+  localStorage.removeItem('urbanspire_staff_name');
+  localStorage.removeItem('urbanspire_staff_role');
+  document.getElementById('dashboardScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+// Auto-resume session if already logged in
+(function initAuth(){
+  const token = localStorage.getItem('urbanspire_staff_token');
+  const name = localStorage.getItem('urbanspire_staff_name');
+  const role = localStorage.getItem('urbanspire_staff_role');
+  if(token && name && role){
+    enterDashboard({ name, role });
+  }
+})();
+
+/* ===== TABS ===== */
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=> b.classList.toggle('active', b.dataset.tab===tab));
+  document.querySelectorAll('.panel').forEach(p=> p.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  if(tab === 'certificates') loadCertificates();
+  if(tab === 'analytics') loadAnalytics();
+}
+
+/* ===== OFFICERS LIST (for assign dropdown) ===== */
+let officersCache = [];
+async function loadOfficersList(){
+  try {
+    const res = await fetch(`${API_BASE}/auth/officers`, { headers: authHeaders() });
+    const data = await res.json();
+    if(data.success) officersCache = data.officers;
+  } catch(err){ console.warn('Could not load officers list:', err.message); }
+}
+
+/* ===== COMPLAINTS ===== */
+async function loadComplaints(){
+  const wrap = document.getElementById('complaintsTableWrap');
+  wrap.innerHTML = '<p class="empty-state">Loading...</p>';
+  const status = document.getElementById('filterStatus').value;
+  const category = document.getElementById('filterCategory').value;
+  const params = new URLSearchParams();
+  if(status) params.set('status', status);
+  if(category) params.set('category', category);
+
+  try {
+    const res = await fetch(`${API_BASE}/complaints?${params}`, { headers: authHeaders() });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || 'Failed to load complaints');
+
+    if(!data.complaints || data.complaints.length === 0){
+      wrap.innerHTML = '<p class="empty-state">No complaints match this filter.</p>';
+      return;
+    }
+
+    const officerOptions = officersCache.map(o=> `<option value="${o._id}">${escapeHtml(o.name)}</option>`).join('');
+
+    wrap.innerHTML = `<table><thead><tr>
+      <th>ID</th><th>Category</th><th>Priority</th><th>Status</th><th>Department</th><th>Assign / Update</th>
+      </tr></thead><tbody>` +
+      data.complaints.map(c => `
+        <tr>
+          <td data-label="ID" class="mono">${c.complaintId}</td>
+          <td data-label="Category">${escapeHtml(c.category)}</td>
+          <td data-label="Priority"><span class="pill ${c.priority.toLowerCase()}">${c.priority}</span></td>
+          <td data-label="Status"><span class="pill ${c.status.replace(/\s/g,'').toLowerCase()}">${c.status}</span></td>
+          <td data-label="Department">${escapeHtml(c.department)}<br><span style="font-size:11px;color:var(--muted);">${c.assignedOfficer ? escapeHtml(c.assignedOfficer.name) : 'Unassigned'}</span></td>
+          <td data-label="Actions">
+            <div class="row-actions">
+              <select id="officer-${c._id}"><option value="">Assign officer...</option>${officerOptions}</select>
+              <select id="status-${c._id}">
+                <option value="Registered" ${c.status==='Registered'?'selected':''}>Registered</option>
+                <option value="In Progress" ${c.status==='In Progress'?'selected':''}>In Progress</option>
+                <option value="Resolved" ${c.status==='Resolved'?'selected':''}>Resolved</option>
+                <option value="Rejected" ${c.status==='Rejected'?'selected':''}>Rejected</option>
+              </select>
+              <input type="text" id="note-${c._id}" placeholder="Progress note (optional)">
+              <button onclick="updateComplaint('${c._id}')"><i class="fa-solid fa-check"></i> Save Update</button>
+            </div>
+          </td>
+        </tr>
+      `).join('') + '</tbody></table>';
+  } catch(err){
+    wrap.innerHTML = `<p class="empty-state" style="color:var(--rust);">${escapeHtml(err.message)}</p>`;
+  }
+}
+
+async function updateComplaint(id){
+  const officerId = document.getElementById(`officer-${id}`).value;
+  const status = document.getElementById(`status-${id}`).value;
+  const note = document.getElementById(`note-${id}`).value;
+
+  try {
+    const res = await fetch(`${API_BASE}/complaints/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
+      body: JSON.stringify({ status, note, assignedOfficer: officerId || undefined })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || 'Update failed');
+    showToast(`Complaint ${data.complaint.complaintId} updated — citizen notified automatically.`);
+    loadComplaints();
+  } catch(err){
+    showToast(err.message, true);
+  }
+}
+
+/* ===== CERTIFICATES ===== */
+async function loadCertificates(){
+  const wrap = document.getElementById('certificatesTableWrap');
+  wrap.innerHTML = '<p class="empty-state">Loading...</p>';
+  const status = document.getElementById('filterCertStatus').value;
+  const params = new URLSearchParams();
+  if(status) params.set('status', status);
+
+  try {
+    const res = await fetch(`${API_BASE}/certificates?${params}`, { headers: authHeaders() });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || 'Failed to load certificates');
+
+    if(!data.certificates || data.certificates.length === 0){
+      wrap.innerHTML = '<p class="empty-state">No applications match this filter.</p>';
+      return;
+    }
+
+    wrap.innerHTML = `<table><thead><tr>
+      <th>ID</th><th>Type</th><th>Applicant</th><th>Status</th><th>Review</th>
+      </tr></thead><tbody>` +
+      data.certificates.map(c => `
+        <tr>
+          <td data-label="ID" class="mono">${c.certificateId}</td>
+          <td data-label="Type">${escapeHtml(c.type)}</td>
+          <td data-label="Applicant">${escapeHtml(c.applicantName)}<br><span style="font-size:11px;color:var(--muted);">${escapeHtml(c.mobile)}</span></td>
+          <td data-label="Status"><span class="pill ${c.status.replace(/\s/g,'').toLowerCase()}">${c.status}</span></td>
+          <td data-label="Review">
+            <div class="row-actions">
+              <textarea id="remarks-${c._id}" rows="2" placeholder="Remarks (optional)"></textarea>
+              <button onclick="reviewCertificate('${c._id}','Approved')"><i class="fa-solid fa-check"></i> Approve</button>
+              <button class="correction" onclick="reviewCertificate('${c._id}','Under Review')"><i class="fa-solid fa-rotate-left"></i> Request Correction</button>
+              <button class="reject" onclick="reviewCertificate('${c._id}','Rejected')"><i class="fa-solid fa-xmark"></i> Reject</button>
+            </div>
+          </td>
+        </tr>
+      `).join('') + '</tbody></table>';
+  } catch(err){
+    wrap.innerHTML = `<p class="empty-state" style="color:var(--rust);">${escapeHtml(err.message)}</p>`;
+  }
+}
+
+async function reviewCertificate(id, status){
+  const remarks = document.getElementById(`remarks-${id}`).value;
+  try {
+    const res = await fetch(`${API_BASE}/certificates/${id}/review`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
+      body: JSON.stringify({ status, remarks })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || 'Review failed');
+    showToast(`Application ${data.certificate.certificateId} marked "${status}" — citizen notified automatically.`);
+    loadCertificates();
+  } catch(err){
+    showToast(err.message, true);
+  }
+}
+
+/* ===== ANALYTICS ===== */
+let catChartInstance, statusChartInstance, monthlyChartInstance;
+async function loadAnalytics(){
+  try {
+    const res = await fetch(`${API_BASE}/dashboard/complaint-stats`, { headers: authHeaders() });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.message || 'Failed to load analytics');
+
+    document.getElementById('kpiTotalComplaints').textContent = data.totalComplaints;
+    document.getElementById('kpiOpenComplaints').textContent = data.openComplaints;
+    document.getElementById('kpiResolvedComplaints').textContent = data.resolvedComplaints;
+
+    renderChart('catChart', 'bar', data.byCategory.map(c=>c._id), data.byCategory.map(c=>c.count), catChartInstance, (inst)=>catChartInstance=inst);
+    renderChart('statusChart', 'doughnut', data.byStatus.map(c=>c._id), data.byStatus.map(c=>c.count), statusChartInstance, (inst)=>statusChartInstance=inst);
+
+    const staffRole = localStorage.getItem('urbanspire_staff_role');
+    if(staffRole === 'admin' || staffRole === 'commissioner'){
+      const citizenRes = await fetch(`${API_BASE}/dashboard/citizen-stats`, { headers: authHeaders() });
+      const citizenData = await citizenRes.json();
+      if(citizenData.success) document.getElementById('kpiTotalCitizens').textContent = citizenData.totalCitizens;
+
+      const monthlyRes = await fetch(`${API_BASE}/dashboard/monthly-report`, { headers: authHeaders() });
+      const monthlyData = await monthlyRes.json();
+      if(monthlyData.success && monthlyData.monthly.length){
+        const labels = monthlyData.monthly.map(m=>`${m._id.month}/${m._id.year}`);
+        const counts = monthlyData.monthly.map(m=>m.count);
+        renderChart('monthlyChart', 'line', labels, counts, monthlyChartInstance, (inst)=>monthlyChartInstance=inst);
+      }
+    }
+  } catch(err){
+    showToast(err.message, true);
+  }
+}
+
+function renderChart(canvasId, type, labels, values, existingInstance, setInstance){
+  if(existingInstance) existingInstance.destroy();
+  const colors = ['#3A8CB5','#C89B3C','#B79CE0','#E6C13C','#E6963C','#2A8C82','#9FA6B2'];
+  const inst = new Chart(document.getElementById(canvasId), {
+    type,
+    data:{ labels, datasets:[{ data: values, backgroundColor: colors, borderColor: type==='line' ? '#10203D' : colors, fill: type==='line', tension:0.4 }] },
+    options:{ plugins:{legend:{display: type==='doughnut'}}, scales: type==='doughnut' ? {} : { y:{beginAtZero:true} } }
+  });
+  setInstance(inst);
+}
+</script>
+</body>
+</html>
