@@ -1,231 +1,373 @@
-# UrbanSpire AI — Backend
+# UrbanSpire AI
 
-Complete production-ready backend for the UrbanSpire AI Smart Municipal Governance Platform.
+### Elevating City Operations Through Intelligence.
 
-## 📁 Folder Structure
+UrbanSpire AI is an **AI-powered Smart Municipal Governance Platform** developed as the **Capstone Project** for the **Lenovo LEAP NextGen Scholar Program**.
+
+The platform transforms urban public service delivery through **Agentic AI, intelligent automation, multilingual citizen assistance, and real-time municipal operations**. It integrates complaint management, certificate applications, property tax services, AI-powered citizen support, and role-based administrative dashboards into one unified digital ecosystem.
+
+---
+
+# 📌 Project Overview
+
+Urban governance still depends heavily on manual paperwork, fragmented systems, and lengthy complaint resolution processes.
+
+UrbanSpire AI digitizes these services using Artificial Intelligence, automation, and role-based dashboards to improve transparency, operational efficiency, and citizen satisfaction.
+
+---
+
+# 🎯 Problem Statement
+
+Many municipalities face challenges such as:
+
+- Slow complaint registration
+- Manual service processing
+- Lack of transparency
+- Fragmented municipal systems
+- Delayed complaint resolution
+- Limited citizen support
+- Inefficient department coordination
+
+UrbanSpire AI addresses these issues through an integrated AI-powered municipal platform.
+
+---
+
+# 💡 Proposed Solution
+
+UrbanSpire AI provides a unified platform where citizens can:
+
+- Register complaints
+- Track complaint status
+- Apply for municipal certificates
+- Access Property Tax services
+- Receive multilingual AI assistance
+- Get real-time notifications
+
+Municipal Officers and Administrators can:
+
+- Manage complaints
+- Update complaint status
+- Process citizen applications
+- Monitor department performance
+- View city-wide analytics
+
+---
+
+# 🤖 Agentic AI Complaint Registration
+
+One of the major enhancements implemented in the final project is **Agentic AI-based Complaint Registration**.
+
+Instead of asking citizens to manually fill complaint forms, the AI Assistant can autonomously:
+
+- Detect complaint registration intent
+- Understand natural language
+- Extract complaint details
+- Collect missing information through multi-turn conversation
+- Classify complaint category using AI
+- Assign the appropriate municipal department
+- Predict complaint priority
+- Register the complaint automatically
+- Generate a unique Complaint ID
+- Notify the citizen
+
+This significantly improves user experience while reducing manual effort.
+
+---
+
+# ✨ Features
+
+### Citizen Portal
+
+- Register Complaints
+- AI Complaint Registration (Agentic AI)
+- Track Complaint Status
+- Birth Certificate Application
+- Property Tax Services
+- Citizen Dashboard
+- Notifications
+- Multilingual AI Assistant
+
+### Municipality Portal
+
+- Municipality Dashboard
+- Complaint Management
+- Department-wise Complaint View
+- Complaint Status Update
+- Complaint Analytics
+
+### Admin Portal
+
+- Admin Dashboard
+- User Management
+- Complaint Monitoring
+- City-wide Analytics
+- Department Performance Reports
+
+---
+
+# 🛠 Technology Stack
+
+### Frontend
+
+- HTML5
+- CSS3
+- JavaScript
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- MongoDB Atlas
+
+### Artificial Intelligence
+
+- Google Gemini AI
+- Agentic AI Workflow
+
+### Authentication
+
+- JWT Authentication
+
+### Deployment
+
+- Vercel
+- Render
+
+---
+
+# 🧠 AI Capabilities
+
+- Multilingual Municipal Assistant
+- Natural Language Understanding
+- AI Complaint Classification
+- Department Prediction
+- Priority Prediction
+- Agentic Complaint Registration
+- Smart Citizen Assistance
+
+---
+
+# 🏗 Project Architecture
+
+Citizen
+
+⬇
+
+Frontend (HTML, CSS, JavaScript)
+
+⬇
+
+Node.js + Express Backend
+
+⬇
+
+Gemini AI
+
+⬇
+
+Agentic AI Workflow
+
+⬇
+
+Complaint Classification
+
+⬇
+
+MongoDB Atlas
+
+---
+
+# 🌍 Sustainable Development Goals (SDGs)
+
+UrbanSpire AI contributes to:
+
+- SDG 9 – Industry, Innovation and Infrastructure
+- SDG 11 – Sustainable Cities and Communities
+- SDG 16 – Peace, Justice and Strong Institutions
+
+---
+
+# 👥 Target Users
+
+- Citizens
+- Municipal Officers
+- Department Heads
+- City Administrators
+- Municipal Commissioners
+
+---
+
+# 🚀 Live Demo
+
+## Citizen Portal
+
+Frontend
+
+👉 YOUR_VERCEL_URL
+
+Backend API
+
+👉 YOUR_RENDER_URL
+
+---
+
+# 🔑 Demo Login Credentials
+
+## 👤 Citizen Portal
+
+Create a new account using the **Citizen Registration** page.
+
+---
+
+## 🏢 Municipality Dashboard
+
+**Email**
+```
+officer@urbanspire.ai
+```
+
+**Password**
+```
+officer123
+```
+
+---
+
+## 👨‍💼 Admin Dashboard
+
+**Email**
+```
+admin@urbanspire.ai
+```
+
+**Password**
+```
+admin123
+```
+
+> **Note:** The Admin and Municipality accounts currently access the same dashboard in this project.
+
+---
+
+## 🏛️ Commissioner Dashboard
+
+**Email**
+```
+commissioner@urbanspire.ai
+```
+
+**Password**
+```
+commissioner123
+```
+
+---
+
+> **Note:** These credentials are provided solely for project demonstration and evaluation purposes.
+
+# 🤖 How to Test Agentic AI
+
+Open the chatbot and try:
+
+Example 1
 
 ```
-urbanspire-backend/
-├── server.js                 # App entry point
-├── package.json
-├── .env.example               # copy to .env and fill in your values
-├── .gitignore
-├── config/
-│   └── db.js                  # MongoDB Atlas connection
-├── models/
-│   ├── User.js
-│   ├── Complaint.js
-│   ├── Department.js
-│   ├── Notification.js
-│   └── Certificate.js
-├── controllers/
-│   ├── authController.js
-│   ├── complaintController.js
-│   ├── chatbotController.js
-│   ├── certificateController.js
-│   ├── dashboardController.js
-│   └── notificationController.js
-├── routes/
-│   ├── authRoutes.js
-│   ├── complaintRoutes.js
-│   ├── chatbotRoutes.js
-│   ├── certificateRoutes.js
-│   ├── dashboardRoutes.js
-│   └── notificationRoutes.js
-├── middleware/
-│   ├── authMiddleware.js       # JWT protect + role authorize + optionalAuth
-│   ├── errorMiddleware.js
-│   ├── validateMiddleware.js
-│   └── upload.js                # multer file upload config
-├── services/
-│   ├── geminiService.js         # Google Gemini API integration
-│   ├── classificationService.js # AI complaint classification
-│   └── pdfService.js            # Certificate PDF generation
-├── utils/
-│   ├── generateToken.js
-│   ├── generateId.js
-│   ├── validators.js
-│   └── seedDepartments.js       # run once to create initial data
-└── uploads/
-    ├── complaints/               # uploaded complaint photos
-    └── certificates/             # uploaded ID proofs + generated PDFs
+I want to register a complaint.
 ```
 
----
+Example 2
 
-## 🚀 Step 1 — Local Setup
-
-1. Install [Node.js](https://nodejs.org) (v18 or higher) if you don't have it.
-2. Open this folder in VS Code.
-3. Open a terminal in VS Code (`Ctrl + \``) and run:
-   ```bash
-   npm install
-   ```
-4. Copy `.env.example` to a new file named `.env`:
-   ```bash
-   cp .env.example .env
-   ```
-5. Fill in the values inside `.env` (see Step 2 and Step 3 below for how to get them).
-6. Start the server:
-   ```bash
-   npm run dev
-   ```
-7. You should see:
-   ```
-   ✅ MongoDB Connected: ...
-   ✅ UrbanSpire AI backend running on port 5000
-   ```
-8. Test it's working by opening `http://localhost:5000` in your browser — you should see a JSON success message.
-
----
-
-## 🍃 Step 2 — MongoDB Atlas Setup (Free)
-
-1. Go to [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas) and create a free account.
-2. Create a **free M0 cluster**.
-3. Go to **Database Access** → Add a new database user (remember the username & password).
-4. Go to **Network Access** → Add IP Address → choose **Allow Access from Anywhere** (`0.0.0.0/0`) — needed so Render can connect.
-5. Go to **Database → Connect → Drivers**, copy the connection string. It looks like:
-   ```
-   mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
-   ```
-6. Paste it into your `.env` as `MONGO_URI`, replacing `<username>` and `<password>` with your actual values, and add `/urbanspire` before the `?` so it connects to a database named "urbanspire":
-   ```
-   MONGO_URI=mongodb+srv://myuser:mypassword@cluster0.xxxxx.mongodb.net/urbanspire?retryWrites=true&w=majority
-   ```
-
-### ⚠️ If you get a DNS / connection error (`querySrv ENOTFOUND`)
-This is the most common beginner issue. Try these fixes in order:
-1. Double check there are no extra spaces, quotes, or leftover `<>` brackets in `MONGO_URI`.
-2. Confirm Network Access allows `0.0.0.0/0` (see step 4 above).
-3. Try switching your computer's DNS to Google DNS (`8.8.8.8`) in your WiFi settings — college/office WiFi often blocks the SRV DNS lookup.
-4. As a guaranteed fix: in Atlas → Connect → Drivers, there's usually also an option for the "standard" connection string (starts with `mongodb://` and lists multiple hosts) instead of `mongodb+srv://`. This skips the DNS SRV lookup entirely.
-5. `config/db.js` already forces IPv4 (`family: 4`) which fixes most cloud-hosting DNS issues automatically.
-
----
-
-## 🤖 Step 3 — Google Gemini API Key (Free)
-
-1. Go to [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey).
-2. Sign in with your Google account and click **Create API Key**.
-3. Copy the key and paste it into `.env` as `GEMINI_API_KEY`.
-4. That's it — the chatbot (`/api/chatbot`) will now use real Gemini AI. If the key is missing or Gemini is temporarily down, the API automatically falls back to built-in rule-based replies so your demo never breaks.
-
----
-
-## 🌱 Step 4 — Seed Initial Data (optional but recommended)
-
-This creates 7 default departments plus one test officer and one test admin account so you can log in immediately without manually creating accounts:
-
-```bash
-npm run seed
+```
+The street light near Shivaji Chowk is not working.
+My name is Radhika Mahajan.
+My mobile number is 9876543210.
+My address is Shivaji Chowk, Latur.
 ```
 
-This will print test credentials like:
-```
-officer@urbanspire.ai / officer123
-admin@urbanspire.ai / admin123
-```
+The AI Assistant will:
+
+- Detect complaint intent
+- Extract details
+- Ask for missing information if required
+- Register the complaint automatically
+- Generate a Complaint ID
+
+---
+# 📂 Project Structure
+
+UrbanSpire-AI/
+│
+├── 📂 backend/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── utils/
+│   ├── uploads/
+│   ├── server.js
+│   ├── package.json
+│   └── ...
+│
+├── 📂 frontend/
+│   ├── index.html
+│   ├── municipality.html
+│   └── vercel.json
+│
+├── 📂 screenshots/
+│   ├── home-page.png
+│   ├── citizen-dashboard.png
+│   ├── complaint-registration.png
+│   ├── complaint-tracking.png
+│   ├── agentic-ai-chatbot.png
+│   ├── municipality-dashboard.png
+│   ├── commissioner-dashboard.png
+│   ├── property-tax.png
+│   └── analytics-dashboard.png
+│
+├── 📂 docs/
+│   ├── UrbanSpire_AI_Concept_Note.pdf
+│   ├── UrbanSpire_AI_LEAP_Canvas.pdf
+│   └── UrbanSpire_AI_Project_Presentation.pdf
+│
+├── README.md
+├── LICENSE
+└── .gitignore
 
 ---
 
-## 📡 Step 5 — API Endpoints Reference
+# 🔮 Future Scope
 
-| Method | Endpoint                                  | Access          | Description |
-|--------|--------------------------------------------|-----------------|--------------|
-| POST   | `/api/auth/signup`                         | Public          | Citizen signup |
-| POST   | `/api/auth/login`                          | Public          | Citizen login |
-| POST   | `/api/auth/officer-login`                  | Public          | Officer/Admin login |
-| GET    | `/api/auth/me`                             | Private         | Get logged-in user profile |
-| POST   | `/api/complaints`                          | Public/Optional | Register complaint (multipart form, field `images`, max 3) |
-| GET    | `/api/complaints/track/:complaintId`       | Public          | Track complaint by ID |
-| GET    | `/api/complaints/my`                       | Citizen         | My complaints |
-| GET    | `/api/complaints`                          | Officer/Admin   | All complaints (filters: `status`, `category`, `department`) |
-| PUT    | `/api/complaints/:id/status`               | Officer/Admin   | Update status / assign officer |
-| POST   | `/api/chatbot`                             | Public          | `{ message, lang }` → AI reply (`lang`: en/hi/mr) |
-| POST   | `/api/certificates`                        | Public/Optional | Apply for document (multipart, fields `idProof`, `supportingDoc`) |
-| GET    | `/api/certificates/my`                     | Citizen         | My applications |
-| GET    | `/api/certificates`                        | Officer/Admin   | All applications |
-| PUT    | `/api/certificates/:id/review`             | Officer/Admin   | Approve/reject (generates PDF) |
-| GET    | `/api/certificates/:certificateId/download`| Public          | Download certificate PDF |
-| GET    | `/api/dashboard/complaint-stats`           | Officer/Admin   | Complaint counts & breakdowns |
-| GET    | `/api/dashboard/monthly-report`            | Officer/Admin   | 6-month trend |
-| GET    | `/api/dashboard/officer-stats`             | Admin           | Officer performance |
-| GET    | `/api/dashboard/citizen-stats`             | Admin           | Citizen engagement |
-| GET    | `/api/notifications`                       | Private         | My notifications |
-
-All Private routes need header: `Authorization: Bearer <token>` (token returned from login).
+- Mobile Application
+- Voice-based AI Assistant
+- GIS-based Complaint Mapping
+- IoT Integration
+- Predictive Urban Analytics
+- Smart City Monitoring
 
 ---
 
-## 🔌 Step 6 — Connecting Your Frontend
+# 👩‍💻 Developed By
 
-In your frontend JavaScript, replace the mock/localStorage logic with real API calls. Example for complaint registration:
+**Radhika Mahajan**
 
-```javascript
-const API_BASE = "https://your-backend-name.onrender.com/api"; // after deploying (Step 7)
-// use "http://localhost:5000/api" while testing locally
+Electronics & Telecommunication Student
 
-async function submitComplaintToBackend(formData) {
-  const data = new FormData();
-  data.append('name', formData.name);
-  data.append('mobile', formData.mobile);
-  data.append('category', formData.category);
-  data.append('address', formData.address);
-  data.append('description', formData.description);
-  if (formData.photoFile) data.append('images', formData.photoFile);
+AI Enthusiast
 
-  const res = await fetch(`${API_BASE}/complaints`, { method: 'POST', body: data });
-  return await res.json(); // { success, complaint, estimatedResolution }
-}
-
-async function askChatbot(message, lang) {
-  const res = await fetch(`${API_BASE}/chatbot`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, lang }),
-  });
-  return await res.json(); // { success, reply }
-}
-```
+Lenovo LEAP NextGen Scholar Program – Capstone Project
 
 ---
 
-## ☁️ Step 7 — Deploy Backend to Render (Free)
+# 🔗 GitHub Repository
 
-1. Push this backend folder to a **GitHub repository** (create a new repo, e.g. `urbanspire-backend`).
-2. Go to [render.com](https://render.com) → sign up/login → **New → Web Service**.
-3. Connect your GitHub repo.
-4. Configure:
-   - **Build Command:** `npm install`
-   - **Start Command:** `npm start`
-   - **Environment:** Node
-5. Under **Environment Variables**, add every key from your `.env` file (`MONGO_URI`, `JWT_SECRET`, `JWT_EXPIRE`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `CLIENT_URL`, `NODE_ENV=production`). **Never commit your real `.env` file to GitHub.**
-6. Click **Create Web Service**. Render will build and deploy — you'll get a URL like `https://urbanspire-backend.onrender.com`.
-7. Update `CLIENT_URL` (in Render's environment variables) to your actual Vercel frontend URL once deployed, then update your frontend's `API_BASE` to point to this Render URL.
-
-> ⚠️ Render's free tier "sleeps" after 15 minutes of inactivity — the first request after sleeping can take ~30-50 seconds to wake up. This is normal and fine for a hackathon demo.
+https://github.com/radhikamahajan705-afk/UrbanSpire-AI
 
 ---
 
-## 🎨 Step 8 — Deploy Frontend to Vercel
+# ⭐ Acknowledgement
 
-1. Push your frontend `index.html` (and any other frontend files) to a separate GitHub repo.
-2. Go to [vercel.com](https://vercel.com) → **New Project** → import that repo.
-3. Since it's a static HTML site, Vercel will auto-detect it — no build command needed.
-4. Deploy. You'll get a URL like `https://urbanspire-ai.vercel.app`.
-5. Go back to Render and set `CLIENT_URL` to this Vercel URL (so CORS allows it).
-
----
-
-## 🧪 Quick Test Checklist
-
-- [ ] `npm install` runs with no errors
-- [ ] `.env` filled in with real MongoDB URI, JWT secret, Gemini key
-- [ ] `npm run seed` successfully creates departments + test accounts
-- [ ] `npm run dev` shows both "MongoDB Connected" and "backend running on port 5000"
-- [ ] `POST http://localhost:5000/api/auth/signup` (via Postman/Thunder Client) creates a citizen
-- [ ] `POST http://localhost:5000/api/chatbot` with `{"message":"hi","lang":"en"}` returns a reply
-- [ ] `POST http://localhost:5000/api/complaints` (form-data) creates a complaint and returns a `complaintId`
-
-You're ready to submit! 🎉
+This project was developed as part of the **Lenovo LEAP NextGen Scholar Program** to demonstrate the application of Artificial Intelligence in Smart Municipal Governance and Digital Public Services.
