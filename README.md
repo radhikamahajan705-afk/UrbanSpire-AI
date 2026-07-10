@@ -206,11 +206,11 @@ UrbanSpire AI contributes to:
 
 Frontend
 
-👉 YOUR_VERCEL_URL
+👉 YOUR_VERCEL_URL : https://urbanspire-ai.vercel.app/
 
 Backend API
 
-👉 YOUR_RENDER_URL
+👉 YOUR_RENDER_URL : https://urbanspire-backend.onrender.com
 
 ---
 
