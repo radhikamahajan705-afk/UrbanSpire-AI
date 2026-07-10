@@ -1,8 +1,0 @@
-node_modules/
-.env
-uploads/complaints/*
-uploads/certificates/*
-!uploads/complaints/.gitkeep
-!uploads/certificates/.gitkeep
-*.log
-.DS_Store
